@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Control de Gastos</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="hero">
+      <div class="hero-copy-wrapper">
+        <p class="eyebrow">Finanzas personales</p>
+        <h1>Control financiero premium</h1>
+        <p class="hero-copy">Registra ingresos y gastos, visualiza tu balance y toma decisiones con estilo.</p>
+      </div>
+      <div class="hero-visual">
+        <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="heroGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#f8e07a" stop-opacity="0.45" />
+              <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0.25" />
+            </linearGradient>
+          </defs>
+          <circle cx="160" cy="110" r="84" fill="url(#heroGlow)" />
+          <circle cx="190" cy="72" r="28" fill="#fff" fill-opacity="0.08" />
+          <circle cx="110" cy="150" r="44" fill="#fff" fill-opacity="0.06" />
+          <path d="M88 60 L120 46 L165 78 L147 118 L102 110 Z" fill="#f3c623" opacity="0.95" />
+          <path d="M192 126 C175 92 140 82 126 102 C112 122 106 150 126 158 C146 166 190 150 192 126 Z" fill="#8b5cf6" opacity="0.85" />
+          <circle cx="112" cy="84" r="16" fill="#fff" />
+        </svg>
+      </div>
+    </header>
+
+    <div class="summary-card">
+      <div class="summary-tile">
+        <div class="summary-icon summary-expense-icon">
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#fde68a"/><path d="M24 14 L24 34 M18 28 L24 22 L30 28" stroke="#1f2937" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span>Total Gastado</span>
+        <strong id="total-expenses">$0,00</strong>
+      </div>
+      <div class="summary-tile">
+        <div class="summary-icon summary-income-icon">
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#c7d2fe"/><path d="M24 14 L24 34 M18 20 L24 26 L30 20" stroke="#1f2937" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span>Ingresos</span>
+        <strong id="total-income">$0,00</strong>
+      </div>
+      <div class="summary-tile">
+        <div class="summary-icon summary-balance-icon">
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#fcd34d"/><path d="M18 18 H30 M18 24 H30 M18 30 H30" stroke="#1f2937" stroke-width="3" stroke-linecap="round"/></svg>
+        </div>
+        <span>Balance</span>
+        <strong id="balance">$0,00</strong>
+      </div>
+    </div>
+
+    <div class="insight-grid">
+      <div class="chart-card">
+        <div class="chart-header">
+          <span>Mapa de flujo</span>
+          <strong>Ingresos vs Gastos</strong>
+        </div>
+        <canvas id="finance-chart" width="600" height="220"></canvas>
+      </div>
+      <div class="stats-card">
+        <div class="stats-header">
+          <span>Visión rápida</span>
+          <strong>Detalles del mes</strong>
+        </div>
+        <div class="quick-metrics">
+          <div>
+            <span>Transacciones</span>
+            <strong id="transaction-count">0</strong>
+          </div>
+          <div>
+            <span>Mayor gasto</span>
+            <strong id="top-expense">-</strong>
+          </div>
+          <div>
+            <span>Mejor ingreso</span>
+            <strong id="top-income">-</strong>
+          </div>
+        </div>
+        <div class="category-breakdown">
+          <div class="breakdown-title">
+            <span>Desglose por categoría</span>
+            <strong id="breakdown-total">0</strong>
+          </div>
+          <div id="category-breakdown" class="breakdown-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="panel">
+      <div class="panel-card">
+        <h2>Registrar movimiento</h2>
+        <form id="expense-form" class="form-grid">
+          <label>
+            Nombre
+            <input type="text" id="expense-name" placeholder="Ej. Transporte" required />
+          </label>
+          <label>
+            Tipo
+            <select id="expense-type" required>
+              <option value="Gasto">Gasto</option>
+              <option value="Ingreso">Ingreso</option>
+            </select>
+          </label>
+          <label>
+            Categoría
+            <select id="expense-category" required>
+              <option value="">Selecciona</option>
+              <option value="Transporte">Transporte</option>
+              <option value="Alimentos">Alimentos</option>
+              <option value="Hogar">Hogar</option>
+              <option value="Entretenimiento">Entretenimiento</option>
+              <option value="Salud">Salud</option>
+              <option value="Salario">Salario</option>
+              <option value="Ahorros">Ahorros</option>
+              <option value="Ventas">Ventas</option>
+              <option value="Reembolso">Reembolso</option>
+              <option value="Otros">Otros</option>
+            </select>
+          </label>
+          <label>
+            Monto
+            <input type="number" id="expense-amount" placeholder="0.00" step="0.01" min="0.01" required />
+          </label>
+          <label>
+            Fecha
+            <input type="date" id="expense-date" required />
+          </label>
+          <button type="submit" class="btn btn-primary">Guardar movimiento</button>
+        </form>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-header">
+          <h2>Últimas transacciones</h2>
+          <button id="clear-all" class="btn btn-secondary">Borrar todo</button>
+        </div>
+        <div class="filter-row">
+          <div class="btn-group" role="group" aria-label="Filtrar transacciones">
+            <button type="button" class="btn btn-tertiary" data-filter="Todos">Todos</button>
+            <button type="button" class="btn btn-tertiary" data-filter="Ingreso">Ingresos</button>
+            <button type="button" class="btn btn-tertiary" data-filter="Gasto">Gastos</button>
+          </div>
+          <select id="category-filter" class="select-filter">
+            <option value="">Todas las categorías</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Alimentos">Alimentos</option>
+            <option value="Hogar">Hogar</option>
+            <option value="Entretenimiento">Entretenimiento</option>
+            <option value="Salud">Salud</option>
+            <option value="Salario">Salario</option>
+            <option value="Ahorros">Ahorros</option>
+            <option value="Ventas">Ventas</option>
+            <option value="Reembolso">Reembolso</option>
+            <option value="Otros">Otros</option>
+          </select>
+        </div>
+        <div id="expense-list" class="expense-list">
+          <p class="empty-state">No hay transacciones registradas. Agrega la primera.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
